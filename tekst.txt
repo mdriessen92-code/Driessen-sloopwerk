@@ -1,0 +1,42 @@
+const menuBtn = document.getElementById("menuBtn");
+const menu = document.getElementById("menu");
+const year = document.getElementById("year");
+
+if (year) year.textContent = new Date().getFullYear();
+
+if (menuBtn && menu) {
+  menuBtn.addEventListener("click", () => {
+    const isOpen = menuBtn.getAttribute("aria-expanded") === "true";
+    menuBtn.setAttribute("aria-expanded", String(!isOpen));
+    menu.classList.toggle("menu--open");
+  });
+
+  menu.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", () => {
+      menuBtn.setAttribute("aria-expanded", "false");
+      menu.classList.remove("menu--open");
+    });
+  });
+}
+
+const bindForm = (id) => {
+  const form = document.getElementById(id);
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    const subject = encodeURIComponent("Offerte aanvraag Driessen Sloopwerk");
+    const body = encodeURIComponent(
+      Object.entries(data)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join("\n")
+    );
+
+    window.location.href = `mailto:info@driessensloopwerk.nl?subject=${subject}&body=${body}`;
+  });
+};
+
+bindForm("quickForm");
+bindForm("contactForm");
