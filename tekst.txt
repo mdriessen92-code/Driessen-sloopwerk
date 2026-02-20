@@ -1,42 +1,101 @@
-const menuBtn = document.getElementById("menuBtn");
-const menu = document.getElementById("menu");
-const year = document.getElementById("year");
-
-if (year) year.textContent = new Date().getFullYear();
-
-if (menuBtn && menu) {
-  menuBtn.addEventListener("click", () => {
-    const isOpen = menuBtn.getAttribute("aria-expanded") === "true";
-    menuBtn.setAttribute("aria-expanded", String(!isOpen));
-    menu.classList.toggle("menu--open");
-  });
-
-  menu.querySelectorAll("a").forEach((a) => {
-    a.addEventListener("click", () => {
-      menuBtn.setAttribute("aria-expanded", "false");
-      menu.classList.remove("menu--open");
-    });
-  });
+:root{
+  --bg:#0b1220;
+  --bg2:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --line:#1f2937;
+  --brand:#22c55e;
+  --brand2:#16a34a;
+  --shadow:0 12px 30px rgba(0,0,0,.35);
+  --radius:16px;
+  --radius2:22px;
+  --max:1120px;
 }
 
-const bindForm = (id) => {
-  const form = document.getElementById(id);
-  if (!form) return;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(180deg,#070b14 0%, #0b1220 40%, #070b14 100%);
+}
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:3px;
+}
 
-    const data = Object.fromEntries(new FormData(form).entries());
-    const subject = encodeURIComponent("Offerte aanvraag Driessen Sloopwerk");
-    const body = encodeURIComponent(
-      Object.entries(data)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join("\n")
-    );
+.container{
+  width:100%;
+  max-width:var(--max);
+  margin:0 auto;
+  padding:0 18px;
+}
 
-    window.location.href = `mailto:info@driessensloopwerk.nl?subject=${subject}&body=${body}`;
-  });
-};
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(7,11,20,.72);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
 
-bindForm("quickForm");
-bindForm("contactForm");
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:72px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+}
+
+.brand__mark{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(180deg,var(--brand) 0%, var(--brand2) 100%);
+  color:#04110a;
+  border-radius:12px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.brand__text{font-weight:700}
+
+.menu{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.menu a{
+  color:var(--text);
+  font-weight:600;
+  opacity:.9;
+}
+
+.menu a:hover{opacity:1}
+
+.menuBtn{
+  display:none;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  border-radius:12px;
+  padding:10px;
+  cursor:pointer;
+}
+
+.menuBtn span{
+  display:block
